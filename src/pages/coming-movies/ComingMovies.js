@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import MovieFilters from "../../components/movie-filters/MovieFilters";
+import MovieTrailer from "../../components/movie-trailer/MovieTrailer";
 import Movies from "../../components/movies/Movies";
 import "./ComingMovies.css";
 
@@ -7,6 +8,7 @@ const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
   const [languages, setLanguages] = useState(null);
   const [filters, setFilters] = useState(null);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     fetchMovies();
@@ -59,10 +61,16 @@ const ComingMovies = () => {
     console.log(newFilters);
   };
 
+  const handleSelectMovie = (movie) => {
+    console.log(movie);
+    setSelectedMovie({ ...movie });
+  };
+
   return (
     <div className="coming-movies-container">
       <MovieFilters change={updateFilterValues} filters={filters} />
-      <Movies movies={movies} />
+      {selectedMovie && <MovieTrailer movie={selectedMovie} />}
+      <Movies selectMovie={handleSelectMovie} movies={movies} />
     </div>
   );
 };

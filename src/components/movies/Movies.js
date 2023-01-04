@@ -8,7 +8,11 @@ const Movies = (props) => {
       {props["movies"] &&
         Object.values(props["movies"]).map((movie) => (
           <div className="movie-card-container">
-            <MovieCard key={`movie-card-${movie["EventCode"]}`} movie={movie} />
+            <MovieCard
+              key={`movie-card-${movie["EventCode"]}`}
+              movie={movie}
+              select={props["selectMovie"]}
+            />
           </div>
         ))}
     </div>

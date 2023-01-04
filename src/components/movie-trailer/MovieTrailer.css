@@ -1,0 +1,24 @@
+.trailer-container {
+  height: 35vh;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  margin-bottom: 20px;
+}
+
+.trailer-container .__youtube-video {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width: 480px) {
+  .trailer-container {
+    height: 45vh;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .trailer-container {
+    height: 55vh;
+  }
+}

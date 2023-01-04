@@ -2,6 +2,7 @@
   box-shadow: 0 0 5px #ddd;
   border-radius: 5px;
   overflow: hidden;
+  cursor: pointer;
 }
 .movie-card .image-container .__image {
   width: 100%;

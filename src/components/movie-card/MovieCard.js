@@ -4,7 +4,11 @@ import "../../setupTests.js";
 
 const MovieCard = (props) => {
   return (
-    <div id="movie-card" className="movie-card">
+    <div
+      id="movie-card"
+      className="movie-card"
+      onClick={() => props["select"](props["movie"])}
+    >
       <div className="image-container">
         <img
           id={`movie-card-${props["movie"]["EventCode"]}-image`}
