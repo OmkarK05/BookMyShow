@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import MovieFilters from "../../components/movie-filters/MovieFilters";
 import Movies from "../../components/movies/Movies";
 
 const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
   const [languages, setLanguages] = useState(null);
+  const [filters, setFilters] = useState(null);
 
   useEffect(() => {
     fetchMovies();
@@ -18,9 +20,31 @@ const ComingMovies = () => {
     ).then((response) => response.json());
     setMovies(response["moviesData"]);
     setLanguages(response["languageList"]);
+    setupFilters();
   };
+
+  const getUUID = () => {
+    return new Date().getTime().toString();
+  };
+
+  const getDefaultFilter = (name = "", values) => {
+    return {
+      name: name,
+      uuid: getUUID(),
+      values: values,
+      selectedValues: []
+    };
+  };
+
+  const setupFilters = () => {
+    let filters = [];
+    filters.push(getDefaultFilter("Language", languages));
+    setFilters(filters);
+  };
+
   return (
     <div>
+      <MovieFilters filters={filters} />
       <Movies movies={movies} />
     </div>
   );
