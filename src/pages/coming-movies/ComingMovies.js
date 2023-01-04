@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MovieFilters from "../../components/movie-filters/MovieFilters";
 import MovieTrailer from "../../components/movie-trailer/MovieTrailer";
 import Movies from "../../components/movies/Movies";
@@ -6,12 +6,12 @@ import "./ComingMovies.css";
 
 const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
-  const [languages, setLanguages] = useState(null);
   const [filters, setFilters] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     fetchMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -22,14 +22,21 @@ const ComingMovies = () => {
       "https://in.bmscdn.com/m6/static/interview-mock/data.json"
     ).then((response) => response.json());
     setMovies(response["moviesData"]);
-    setLanguages(response["languageList"]);
     setupFilters("Language", response["languageList"]);
   };
 
+  /**
+   * Method to get uuid
+   */
   const getUUID = () => {
     return new Date().getTime().toString();
   };
 
+  /**
+   * Method returns filter structure by using name and values
+   * @param {String} name - filter name
+   * @param {Array} values - array of filter values/options
+   */
   const getDefaultFilter = (name = "", values) => {
     return {
       name: name,
@@ -39,12 +46,23 @@ const ComingMovies = () => {
     };
   };
 
+  /**
+   * Method to setup filter. It creates filter and adds it to filters state
+   * @param {String} name - filter name
+   * @param {Array} values - array of filter values/options
+   */
   const setupFilters = (name, values) => {
     let updatedFilters = [...(filters || [])];
     updatedFilters.push(getDefaultFilter(name, values));
     setFilters(updatedFilters);
   };
 
+  /**
+   * When filter are selected/deselected this method is triggered to update the filters state
+   * @param {String} uuid - uuid of that filter
+   * @param {Array} value - changed value
+   * @param {Array} selectedValues - array of selected values
+   */
   const updateFilterValues = (uuid, value, selectedValues) => {
     const newFilters = [...filters];
     const updatedFilter = newFilters.find((filter) => filter["uuid"] === uuid);
@@ -53,16 +71,18 @@ const ComingMovies = () => {
       (__value) => __value["name"] === value["name"]
     );
 
-    // Toggling
+    // Toggling isSelected state
     selectedValue["isSelected"] = !selectedValue["isSelected"];
     updatedFilter["selectedValues"] = [...selectedValues];
 
     setFilters(newFilters);
-    console.log(newFilters);
   };
 
+  /**
+   * This method is called after clicking on movie. It updates selectedMovie state
+   * @param {Object} movie - movie object
+   */
   const handleSelectMovie = (movie) => {
-    console.log(movie);
     setSelectedMovie({ ...movie });
   };
 

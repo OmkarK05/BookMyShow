@@ -6,7 +6,7 @@ const MovieCard = (props) => {
   return (
     <div
       id="movie-card"
-      className="movie-card"
+      className={`movie-card ${props["loading"] ? "loading" : ""}`}
       onClick={() => props["select"](props["movie"])}
     >
       <div className="image-container">
@@ -15,6 +15,7 @@ const MovieCard = (props) => {
           className="__image"
           alt={props["movie"]["EventName"]}
           src={props["movie"]["EventImageUrl"]}
+          loading="lazy"
         />
       </div>
       <div className="content">

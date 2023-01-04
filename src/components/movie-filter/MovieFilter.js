@@ -5,14 +5,24 @@ const MovieFilter = (props) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(null);
 
+  /**
+   * Method to show select options container
+   */
   const openOptions = () => {
     setShowOptions(true);
   };
 
+  /**
+   * Method to disable select option container
+   */
   const closeOptions = () => {
     setShowOptions(false);
   };
 
+  /**
+   * This method handle filter selection/deselection.
+   * It updated selectedOptions state and calls change parent function to update filter state
+   */
   const handleSelectOption = (value) => {
     // Getting options
     let options = [...(selectedOptions || [])];
@@ -24,13 +34,13 @@ const MovieFilter = (props) => {
       options.push(value["name"]);
     }
 
-    // Toggling
-    // selectedValue["isSelected"] = !selectedValue["isSelected"];
-
     setSelectedOptions(options);
     props["change"](props["filter"]["uuid"], value, options);
   };
 
+  /**
+   * This method converts array of selected options into string to display
+   */
   const getSelectedOptionsText = useMemo(
     () =>
       selectedOptions

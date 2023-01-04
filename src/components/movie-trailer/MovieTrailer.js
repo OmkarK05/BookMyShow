@@ -2,6 +2,9 @@ import React, { useMemo } from "react";
 import "./MovieTrailer.css";
 
 const MovieTrailer = (props) => {
+  /**
+   * This method converts youtube link into embed link and concats autoplay query param
+   */
   const getEmbbedUrl = useMemo(
     () =>
       props["movie"]
