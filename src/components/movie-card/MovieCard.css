@@ -1,0 +1,26 @@
+.movie-card {
+  box-shadow: 0 0 5px #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.movie-card .image-container .__image {
+  width: 100%;
+}
+.movie-card .content {
+  padding: 10px;
+}
+.movie-card .content .__name,
+.movie-card .content .__language {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card .content .__language {
+  text-align: left;
+  margin-top: 8px;
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+}

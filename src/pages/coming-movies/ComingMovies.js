@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Movies from "../../components/movies/Movies";
 
-const Movies = () => {
+const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
   const [languages, setLanguages] = useState(null);
 
@@ -18,7 +19,11 @@ const Movies = () => {
     setMovies(response["moviesData"]);
     setLanguages(response["languageList"]);
   };
-  return <div></div>;
+  return (
+    <div>
+      <Movies movies={movies} />
+    </div>
+  );
 };
 
-export default Movies;
+export default ComingMovies;
