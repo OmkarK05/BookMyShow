@@ -1,3 +1,5 @@
 .movie-filters {
-  padding: 20px 12px;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: flex-end;
 }

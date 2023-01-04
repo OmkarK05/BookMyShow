@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import MovieFilters from "../../components/movie-filters/MovieFilters";
 import Movies from "../../components/movies/Movies";
+import "./ComingMovies.css";
 
 const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
@@ -59,7 +60,7 @@ const ComingMovies = () => {
   };
 
   return (
-    <div>
+    <div className="coming-movies-container">
       <MovieFilters change={updateFilterValues} filters={filters} />
       <Movies movies={movies} />
     </div>

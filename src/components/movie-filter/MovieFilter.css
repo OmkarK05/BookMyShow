@@ -1,24 +1,28 @@
 .movie-filter {
   position: relative;
-  width: 130px;
+  width: 150px;
 }
 
 .select-container {
   width: 100%;
-  height: 25px;
+  height: 33px;
   border: 1px solid var(--tertiary-color);
   border-radius: 4px;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 999;
 }
 
 .select-container .__select-text {
-  width: calc(130px - 25px);
+  width: calc(150px - 25px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 5px;
+  padding-left: 8px;
   color: var(--primary-color);
+  cursor: default;
+  text-align: left;
 }
 
 .select-container .__icon {
@@ -28,17 +32,21 @@
 .options-container {
   position: absolute;
   background: #ffffff;
-  top: 25px;
+  top: 33px;
   width: 100%;
   border-radius: 4px;
+  box-shadow: 0 0 5px #ddd;
+  padding: 8px 4px;
+  z-index: 99;
+  max-height: 90vh;
+  overflow: auto;
 }
 
 .options-container .option {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 8px;
-  margin: 8px 0;
+  padding: 8px 8px;
   cursor: pointer;
 }
 
@@ -50,6 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 2px;
 }
 
 .options-container .option.active .__checkbox {
@@ -60,4 +69,13 @@
 .options-container .option .__value {
   user-select: none;
   color: var(--grey-color);
+  font-size: 12px;
+}
+
+.options-container .option:hover .__value {
+  color: var(--tertiary-color);
+}
+
+.options-container .option .__checkbox .--icon {
+  margin-bottom: 1px;
 }

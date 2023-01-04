@@ -5,8 +5,12 @@ const MovieFilter = (props) => {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(null);
 
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
+  const openOptions = () => {
+    setShowOptions(true);
+  };
+
+  const closeOptions = () => {
+    setShowOptions(false);
   };
 
   const handleSelectOption = (value) => {
@@ -36,8 +40,13 @@ const MovieFilter = (props) => {
   );
 
   return (
-    <div id="movie-filter" className="movie-filter">
-      <div className="select-container" onClick={toggleOptions}>
+    <div
+      id="movie-filter"
+      className="movie-filter"
+      onMouseEnter={openOptions}
+      onMouseLeave={closeOptions}
+    >
+      <div className="select-container">
         <div
           text={getSelectedOptionsText}
           className="__select-text font-regular"
@@ -72,7 +81,7 @@ const MovieFilter = (props) => {
                     width="14"
                     height="14"
                     fill="#ffffff"
-                    className="bi bi-check-lg"
+                    className="bi bi-check-lg --icon"
                     viewBox="0 0 16 16"
                   >
                     <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
@@ -80,7 +89,7 @@ const MovieFilter = (props) => {
                 )}
               </div>
               <div
-                className="{__value font-regular}"
+                className="__value"
                 key={value["name"]}
                 value={value["name"]}
               >
