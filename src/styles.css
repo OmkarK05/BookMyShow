@@ -3,6 +3,14 @@
   text-align: center;
 }
 
+:root {
+  --primary-color: #f84464;
+  --secondary-color: #454343;
+  --tertiary-color: #49ba8e;
+  --grey-color: #818181;
+  --light-grey-color: #f3f3f3;
+}
+
 .font-small {
   font-size: 11px;
 }

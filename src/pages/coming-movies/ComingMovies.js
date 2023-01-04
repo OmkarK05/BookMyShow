@@ -20,7 +20,7 @@ const ComingMovies = () => {
     ).then((response) => response.json());
     setMovies(response["moviesData"]);
     setLanguages(response["languageList"]);
-    setupFilters();
+    setupFilters("Language", response["languageList"]);
   };
 
   const getUUID = () => {
@@ -31,20 +31,36 @@ const ComingMovies = () => {
     return {
       name: name,
       uuid: getUUID(),
-      values: values,
+      values: values.map((value) => ({ name: value, isSelected: false })),
       selectedValues: []
     };
   };
 
-  const setupFilters = () => {
-    let filters = [];
-    filters.push(getDefaultFilter("Language", languages));
-    setFilters(filters);
+  const setupFilters = (name, values) => {
+    let updatedFilters = [...(filters || [])];
+    updatedFilters.push(getDefaultFilter(name, values));
+    setFilters(updatedFilters);
+  };
+
+  const updateFilterValues = (uuid, value, selectedValues) => {
+    const newFilters = [...filters];
+    const updatedFilter = newFilters.find((filter) => filter["uuid"] === uuid);
+    // Getting value object from filter values
+    let selectedValue = updatedFilter["values"].find(
+      (__value) => __value["name"] === value["name"]
+    );
+
+    // Toggling
+    selectedValue["isSelected"] = !selectedValue["isSelected"];
+    updatedFilter["selectedValues"] = [...selectedValues];
+
+    setFilters(newFilters);
+    console.log(newFilters);
   };
 
   return (
     <div>
-      <MovieFilters filters={filters} />
+      <MovieFilters change={updateFilterValues} filters={filters} />
       <Movies movies={movies} />
     </div>
   );
