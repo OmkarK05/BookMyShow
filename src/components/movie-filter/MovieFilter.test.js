@@ -8,12 +8,8 @@ const filter = {
   filter: {
     name: "Languages",
     uuid: "1672886623616",
-    values: [
-      { name: "Hindi", isSelected: false },
-      { name: "English", isSelected: false },
-      { name: "Marathi", isSelected: false }
-    ],
-    selectedValues: "[]"
+    values: ["Hindi", "English", "Marathi"],
+    selectedValues: []
   }
 };
 
@@ -43,12 +39,10 @@ describe("Movie Filter", () => {
 
     it("should have options with checkbox", () => {
       filter["filter"]["values"].forEach((value) => {
-        const checkbox = wrapped.find(
-          `#movie-filter-${value["name"]}-checkbox`
-        );
-        const option = wrapped.find(`#movie-filter-${value["name"]}-option`);
+        const checkbox = wrapped.find(`#movie-filter-${value}-checkbox`);
+        const option = wrapped.find(`#movie-filter-${value}-option`);
         expect(checkbox).toBeTruthy();
-        expect(option.text()).toEqual(value["name"]);
+        expect(option.text()).toEqual(value);
       });
     });
   });

@@ -9,6 +9,7 @@ const MovieLeftFilter = ({ value, selectedValues, select }) => {
 
   return (
     <button
+      id={`movie-left-filter-${value}`}
       className={`__btn ${
         values.has(value) ? "__btn-primary" : "__btn-secondary"
       } __filter-btn`}
