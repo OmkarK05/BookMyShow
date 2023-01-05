@@ -85,7 +85,7 @@ let wrapped = shallow(
     selectMovie={moviesProps["selectMovie"]}
   />
 );
-describe("Movie Filter", () => {
+describe("Movies", () => {
   it("Should display movie cards", () => {
     moviesProps["movies"].forEach((movie) => {
       const imageWrapper = wrapped.find(`#movie-card-${movie["EventCode"]}`);

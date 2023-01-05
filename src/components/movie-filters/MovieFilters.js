@@ -7,7 +7,11 @@ const MovieFilters = (props) => {
     <div id="movie-filters" className="movie-filters">
       {props["filters"] &&
         props["filters"].map((filter) => (
-          <MovieFilter change={props["change"]} filter={filter} />
+          <MovieFilter
+            id={`movie-filter-${filter["uuid"]}`}
+            change={props["change"]}
+            filter={filter}
+          />
         ))}
     </div>
   );
