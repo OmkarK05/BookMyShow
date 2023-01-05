@@ -9,6 +9,7 @@ const MovieFilters = (props) => {
         props["filters"].map((filter) => (
           <MovieFilter
             id={`movie-filter-${filter["uuid"]}`}
+            key={`movie-filter-${filter["uuid"]}`}
             change={props["change"]}
             filter={filter}
           />

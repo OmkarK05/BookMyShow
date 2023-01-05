@@ -7,10 +7,12 @@ const Movies = (props) => {
     <div id="movies-container" className="movies-container">
       {props["movies"] &&
         props["movies"].map((movie) => (
-          <div className="movie-card-container">
+          <div
+            key={`movie-card-${movie["EventCode"]}`}
+            className="movie-card-container"
+          >
             <MovieCard
               id={`movie-card-${movie["EventCode"]}`}
-              key={`movie-card-${movie["EventCode"]}`}
               movie={movie}
               select={props["selectMovie"]}
             />
