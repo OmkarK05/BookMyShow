@@ -1,6 +1,5 @@
 import React from "react";
 import "./MovieCard.css";
-import "../../setupTests.js";
 
 const MovieCard = (props) => {
   return (

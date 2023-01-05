@@ -6,7 +6,7 @@ const Movies = (props) => {
   return (
     <div id="movies-container" className="movies-container">
       {props["movies"] &&
-        Object.values(props["movies"]).map((movie) => (
+        props["movies"].map((movie) => (
           <div className="movie-card-container">
             <MovieCard
               key={`movie-card-${movie["EventCode"]}`}

@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import MovieCard from "./MovieCard.js";
+import "../../setupTests.js";
 
 const movie = {
   EventGroup: "EG00071990",

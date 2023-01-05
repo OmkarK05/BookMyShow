@@ -16,7 +16,7 @@ const MovieTrailer = (props) => {
   );
 
   return (
-    <div className="trailer-container">
+    <div className="trailer-container" id="movie-youtube-trailer">
       <iframe
         title={props["EventTitle"]}
         className="__youtube-video"

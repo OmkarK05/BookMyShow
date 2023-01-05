@@ -1,6 +1,7 @@
 .movie-filter {
   position: relative;
-  width: 150px;
+  width: 120px;
+  margin: 0 12px;
 }
 
 .select-container {
@@ -15,7 +16,7 @@
 }
 
 .select-container .__select-text {
-  width: calc(150px - 25px);
+  width: calc(120px - 25px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -78,4 +79,14 @@
 
 .options-container .option .__checkbox .--icon {
   margin-bottom: 1px;
+}
+
+@media screen and (min-width: 400px) {
+  .movie-filter {
+    width: 150px;
+  }
+
+  .select-container .__select-text {
+    width: calc(150px - 25px);
+  }
 }

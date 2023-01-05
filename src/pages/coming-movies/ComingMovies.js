@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MovieFilters from "../../components/movie-filters/MovieFilters";
 import MovieTrailer from "../../components/movie-trailer/MovieTrailer";
 import Movies from "../../components/movies/Movies";
@@ -21,7 +21,8 @@ const ComingMovies = () => {
     const response = await fetch(
       "https://in.bmscdn.com/m6/static/interview-mock/data.json"
     ).then((response) => response.json());
-    setMovies(response["moviesData"]);
+    setMovies(Object.values(response["moviesData"]));
+    setupFilters("Type", ["Fresh", "Popular"]);
     setupFilters("Language", response["languageList"]);
   };
 
@@ -52,9 +53,9 @@ const ComingMovies = () => {
    * @param {Array} values - array of filter values/options
    */
   const setupFilters = (name, values) => {
-    let updatedFilters = [...(filters || [])];
-    updatedFilters.push(getDefaultFilter(name, values));
-    setFilters(updatedFilters);
+    let filter = getDefaultFilter(name, values);
+    console.log(filter);
+    setFilters((filters) => [...(filters || []), filter]);
   };
 
   /**
@@ -86,11 +87,27 @@ const ComingMovies = () => {
     setSelectedMovie({ ...movie });
   };
 
+  const applyLanguageFilter = (movie) => {
+    if (!getLanguageFilter["selectedValues"].length) return true;
+    return getLanguageFilter["selectedValues"].includes(movie["EventLanguage"]);
+  };
+
+  const getLanguageFilter = useMemo(
+    () =>
+      filters &&
+      filters.find((filter) => filter["name"].toLowerCase() === "language"),
+    [filters]
+  );
+
+  const getFilteredMovies = useMemo(() => {
+    return movies && movies.filter((movie) => applyLanguageFilter(movie));
+  }, [filters]);
+
   return (
     <div className="coming-movies-container">
       <MovieFilters change={updateFilterValues} filters={filters} />
       {selectedMovie && <MovieTrailer movie={selectedMovie} />}
-      <Movies selectMovie={handleSelectMovie} movies={movies} />
+      <Movies selectMovie={handleSelectMovie} movies={getFilteredMovies} />
     </div>
   );
 };

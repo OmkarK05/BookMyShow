@@ -58,6 +58,7 @@ const MovieFilter = (props) => {
     >
       <div className="select-container">
         <div
+          id={`movie-filter-${props["filter"]["uuid"]}-text`}
           text={getSelectedOptionsText}
           className="__select-text font-regular"
         >
@@ -78,13 +79,19 @@ const MovieFilter = (props) => {
         </svg>
       </div>
       {showOptions && (
-        <div className="options-container">
+        <div
+          className="options-container"
+          id={`movie-filter-${props["filter"]["uuid"]}-options`}
+        >
           {props["filter"]["values"].map((value, index) => (
             <div
               onClick={() => handleSelectOption(value)}
               className={`option ${value["isSelected"] ? "active" : ""}`}
             >
-              <div className="__checkbox">
+              <div
+                id={`movie-filter-${value["name"]}-checkbox`}
+                className="__checkbox"
+              >
                 {value["isSelected"] && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +106,7 @@ const MovieFilter = (props) => {
                 )}
               </div>
               <div
+                id={`movie-filter-${value["name"]}-option`}
                 className="__value"
                 key={value["name"]}
                 value={value["name"]}
