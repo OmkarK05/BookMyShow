@@ -1,9 +1,13 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./MovieFilter.css";
 
 const MovieFilter = (props) => {
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState(null);
+  const [values, setValues] = useState(new Set([]));
+
+  useEffect(() => {
+    setValues(new Set(props["filter"]["selectedValues"]));
+  }, [props]);
 
   /**
    * Method to show select options container
@@ -21,21 +25,9 @@ const MovieFilter = (props) => {
 
   /**
    * This method handle filter selection/deselection.
-   * It updated selectedOptions state and calls change parent function to update filter state
    */
   const handleSelectOption = (value) => {
-    // Getting options
-    let options = [...(selectedOptions || [])];
-
-    // If options include value then filter out value else add it
-    if (options.includes(value["name"])) {
-      options = options.filter((__value) => __value !== value["name"]);
-    } else {
-      options.push(value["name"]);
-    }
-
-    setSelectedOptions(options);
-    props["change"](props["filter"]["uuid"], value, options);
+    props["change"](props["filter"]["uuid"], value);
   };
 
   /**
@@ -43,10 +35,10 @@ const MovieFilter = (props) => {
    */
   const getSelectedOptionsText = useMemo(
     () =>
-      selectedOptions
-        ? selectedOptions.join(", ")
+      props["filter"]["selectedValues"].length
+        ? props["filter"]["selectedValues"].join(", ")
         : "All " + props["filter"]["name"],
-    [selectedOptions, props]
+    [props]
   );
 
   return (
@@ -86,13 +78,10 @@ const MovieFilter = (props) => {
           {props["filter"]["values"].map((value, index) => (
             <div
               onClick={() => handleSelectOption(value)}
-              className={`option ${value["isSelected"] ? "active" : ""}`}
+              className={`option ${values.has(value) ? "active" : ""}`}
             >
-              <div
-                id={`movie-filter-${value["name"]}-checkbox`}
-                className="__checkbox"
-              >
-                {value["isSelected"] && (
+              <div id={`movie-filter-${value}-checkbox`} className="__checkbox">
+                {values.has(value) && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -106,12 +95,12 @@ const MovieFilter = (props) => {
                 )}
               </div>
               <div
-                id={`movie-filter-${value["name"]}-option`}
+                id={`movie-filter-${value}-option`}
                 className="__value"
-                key={value["name"]}
-                value={value["name"]}
+                key={value}
+                value={value}
               >
-                {value["name"]}
+                {value}
               </div>
             </div>
           ))}

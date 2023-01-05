@@ -1,5 +1,32 @@
 .movie-filters {
-  padding: 20px 0;
+  margin-top: 20px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.left-filters,
+.right-filters {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.__filter-btn {
+  text-transform: uppercase;
+}
+@media screen and (min-width: 480px) {
+  .movie-filters {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .left-filters {
+    justify-content: flex-start;
+  }
+
+  .right-filters {
+    justify-content: flex-end;
+  }
 }

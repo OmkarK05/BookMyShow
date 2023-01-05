@@ -1,6 +1,6 @@
 .movie-filter {
   position: relative;
-  width: 120px;
+  width: 130px;
   margin: 0 12px;
 }
 
@@ -81,7 +81,7 @@
   margin-bottom: 1px;
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 480px) {
   .movie-filter {
     width: 150px;
   }

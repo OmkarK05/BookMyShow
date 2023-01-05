@@ -8,6 +8,7 @@ const ComingMovies = () => {
   const [movies, setMovies] = useState(null);
   const [filters, setFilters] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [leftFilters, setLeftFilters] = useState(null);
 
   useEffect(() => {
     fetchMovies();
@@ -18,12 +19,19 @@ const ComingMovies = () => {
    * Method to get language and movies list through api call and sets languages and movies state
    */
   const fetchMovies = async () => {
-    const response = await fetch(
-      "https://in.bmscdn.com/m6/static/interview-mock/data.json"
-    ).then((response) => response.json());
+    let response;
+    setFilters(null);
+    try {
+      response = await fetch(
+        "https://in.bmscdn.com/m6/static/interview-mock/data.json"
+      ).then((response) => response.json());
+    } catch (error) {
+      alert("Error while fetching movies");
+    }
     setMovies(Object.values(response["moviesData"]));
-    setupFilters("Type", ["Fresh", "Popular"]);
-    setupFilters("Language", response["languageList"]);
+    addFilter("Type", ["Fresh", "Popular"], true);
+    addFilter("Languages", response["languageList"]);
+    setupLeftFilters();
   };
 
   /**
@@ -42,7 +50,7 @@ const ComingMovies = () => {
     return {
       name: name,
       uuid: getUUID(),
-      values: values.map((value) => ({ name: value, isSelected: false })),
+      values: values,
       selectedValues: []
     };
   };
@@ -52,8 +60,9 @@ const ComingMovies = () => {
    * @param {String} name - filter name
    * @param {Array} values - array of filter values/options
    */
-  const setupFilters = (name, values) => {
+  const addFilter = (name, values, preselect) => {
     let filter = getDefaultFilter(name, values);
+    if (preselect) filter["selectedValues"].push(filter["values"][0]);
     setFilters((filters) => [...(filters || []), filter]);
   };
 
@@ -63,18 +72,18 @@ const ComingMovies = () => {
    * @param {Array} value - changed value
    * @param {Array} selectedValues - array of selected values
    */
-  const updateFilterValues = (uuid, value, selectedValues) => {
-    console.log(uuid, value, selectedValues);
+  const updateFilterValues = (uuid, value) => {
     const newFilters = [...filters];
     const updatedFilter = newFilters.find((filter) => filter["uuid"] === uuid);
-    // Getting value object from filter values
-    let selectedValue = updatedFilter["values"].find(
-      (__value) => __value["name"] === value["name"]
-    );
 
-    // Toggling isSelected state
-    selectedValue["isSelected"] = !selectedValue["isSelected"];
-    updatedFilter["selectedValues"] = [...selectedValues];
+    // updating selected values list
+    if (updatedFilter["selectedValues"].includes(value)) {
+      updatedFilter["selectedValues"] = updatedFilter["selectedValues"].filter(
+        (__value) => __value !== value
+      );
+    } else {
+      updatedFilter["selectedValues"].push(value);
+    }
 
     setFilters(newFilters);
   };
@@ -87,25 +96,62 @@ const ComingMovies = () => {
     setSelectedMovie({ ...movie });
   };
 
+  /**
+   * Method filters movie as per language filter
+   * @param {Object} movie -
+   */
   const applyLanguageFilter = (movie) => {
-    if (!getLanguageFilter["selectedValues"].length) return true;
+    if (!(getLanguageFilter && getLanguageFilter["selectedValues"].length))
+      return true;
     return getLanguageFilter["selectedValues"].includes(movie["EventLanguage"]);
   };
 
+  /**
+   * Method to get language filter from filters
+   */
   const getLanguageFilter = useMemo(
     () =>
       filters &&
-      filters.find((filter) => filter["name"].toLowerCase() === "language"),
+      filters.find((filter) => filter["name"].toLowerCase() === "languages"),
     [filters]
   );
 
+  /**
+   * Method to get filtered movies as per the filters
+   */
   const getFilteredMovies = useMemo(() => {
     return movies && movies.filter((movie) => applyLanguageFilter(movie));
   }, [filters]);
 
+  /**
+   * Method to setup left side filters coming-soon/now-showing
+   */
+  const setupLeftFilters = () => {
+    let filter = getDefaultFilter("left", ["Comming Soon", "Now Showing"]);
+    filter["selectedValues"].push(filter["values"][0]);
+    setLeftFilters(filter);
+  };
+
+  /**
+   * Method is trigged on change in left side filters
+   * @param {String} value - filter value
+   */
+  const updateLeftFilter = (value) => {
+    // updating selected values list
+    leftFilters["selectedValues"] = [];
+    leftFilters["selectedValues"].push(value);
+
+    setLeftFilters({ ...leftFilters });
+  };
+
   return (
     <div className="coming-movies-container">
-      <MovieFilters change={updateFilterValues} filters={filters} />
+      <MovieFilters
+        changeRightFilter={updateFilterValues}
+        changeLeftFilter={updateLeftFilter}
+        leftFilters={leftFilters}
+        filters={filters}
+      />
       {selectedMovie && <MovieTrailer movie={selectedMovie} />}
       <Movies selectMovie={handleSelectMovie} movies={getFilteredMovies} />
     </div>
