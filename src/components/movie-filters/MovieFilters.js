@@ -10,6 +10,7 @@ const MovieFilters = (props) => {
         {props["leftFilters"] &&
           props["leftFilters"]["values"].map((value) => (
             <MovieLeftFilter
+              key={`movie-filter-${value}`}
               selectedValues={props["leftFilters"]["selectedValues"]}
               value={value}
               select={props["changeLeftFilter"]}
