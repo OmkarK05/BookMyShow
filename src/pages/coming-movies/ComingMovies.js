@@ -54,7 +54,6 @@ const ComingMovies = () => {
    */
   const setupFilters = (name, values) => {
     let filter = getDefaultFilter(name, values);
-    console.log(filter);
     setFilters((filters) => [...(filters || []), filter]);
   };
 
