@@ -30,7 +30,7 @@ const ComingMovies = () => {
    * Method to get uuid
    */
   const getUUID = () => {
-    return new Date().getTime().toString();
+    return "id" + Math.random().toString(16).slice(2);
   };
 
   /**
@@ -64,6 +64,7 @@ const ComingMovies = () => {
    * @param {Array} selectedValues - array of selected values
    */
   const updateFilterValues = (uuid, value, selectedValues) => {
+    console.log(uuid, value, selectedValues);
     const newFilters = [...filters];
     const updatedFilter = newFilters.find((filter) => filter["uuid"] === uuid);
     // Getting value object from filter values
